@@ -155,9 +155,12 @@ class LTIAuthenticator(Authenticator):
             # If Canvas is running in anonymous mode, we'll still want the 'user_id' (which is the `lti_user_id``)
 
             canvas_id = handler.get_body_argument('custom_canvas_user_id', default=None)
+            product_code = handler.get_body_argument('tool_consumer_info_product_family_code', default=None)
 
             if canvas_id is not None:
                 user_id = handler.get_body_argument('custom_canvas_user_id')
+            elif 'moodle' in product_code:
+                user_id = handler.get_body_argument('ext_user_username')
             else:
                 user_id = handler.get_body_argument('user_id')
 
